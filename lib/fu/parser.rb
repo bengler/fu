@@ -1,3 +1,5 @@
+# Parses Fu templates
+
 require 'strscan'
 require 'ostruct'
 
@@ -80,7 +82,7 @@ module Fu
           node.text = scan.strip
         end
       end
-      
+
       scanner.scan(/\n/) # Consume end of line
       node
     end

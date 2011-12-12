@@ -1,3 +1,5 @@
+# Renders Mustache templates from a Fu parse-tree
+
 require 'cgi'
 
 module Fu

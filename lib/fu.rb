@@ -1,3 +1,5 @@
+# Fu combines the logic–less portability of Mustache with the terse utility of Haml.
+
 require "fu/version"
 require "fu/error"
 require "fu/parser"
