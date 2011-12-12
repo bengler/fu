@@ -4,11 +4,7 @@ require "fu/parser"
 require "fu/mustache"
 
 module Fu
-  def self.parse(text)
-    Fu::Parser.new(text).root
-  end
-
   def self.to_mustache(fu)
-    Fu::Mustache.new(parse(fu)).mustache
+    Fu::Mustache.new(Fu::Parser.new(fu).root).mustache
   end
 end
