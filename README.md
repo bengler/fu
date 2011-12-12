@@ -5,6 +5,12 @@ Fu
 
 Fu combines the logic–less portability of Mustache with the terse utility of Haml. This is what it looks like:
 
+    %ul
+      {{#children}}
+        %li {{name}}
+    
+...
+
     %h1(id="{{special_id}}") Hello, {{user_name}}
     .text
       %p
@@ -23,9 +29,11 @@ With sinatra:
 
     require 'fu/tilt'
 
-In your app:
+Stick your fu-templates in your views-folder with the extension `.fu`.    
 
-    get "/someaction" do
-      fu :template, :locals => {...}
+Meanwhile, in your app:
+
+    get "/some_action" do
+      fu :some_template, :locals => {...}
     end
 
