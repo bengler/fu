@@ -8,17 +8,27 @@ Fu combines the logic–less portability of Mustache with the terse utility of H
     %ul
       {{#children}}
         %li {{name}}
-    
-...
 
-    %h1(id="{{special_id}}") Hello, {{user_name}}
-    .text
-      %p
-        This is a paragraph of 
-        text.
-    .friend_list
+Then in the (Sinatra) app:
+
+    get "/list" do
+      fu :list, :locals => {:children => [{:name => "Arne"}, {:name => "Bjarne"}]}
+    end
+
+And you get:
+
+    <ul><li>Arne</li><li>Bjarne</li></ul>
+    
+A contrived example using all aspects of the syntax:
+
+    %h1 Hello, {{user_name}}
+    %p.text
+      This is a paragraph of 
+      text.    
+    %ul.friend_list(data-attribute1="some data", data-attribute2="{{some_mustache_data}}")
       {{#friends}}
-        {{>friend_partial}}        
+        %li
+          {{>friend_partial}}
     
 Usage
 =====
