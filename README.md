@@ -1,3 +1,5 @@
+![Puts the Fu in Mustache](http://2.bp.blogspot.com/-_i2s2gzRwgw/TZCLNfnXg4I/AAAAAAAAAEg/_fIOfF6cUxw/s1600/the-face-of-fu-manchu-original.jpg)
+
 Fu
 ==
 
