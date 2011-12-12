@@ -37,6 +37,8 @@ module Fu
       [CGI.escapeHTML(node.text), render_children(node)].compact
     end
 
+    def render_blank(node); end
+
     def render_mustache(node)
       /^\s*(?<action>[#>^]?)\s*(?<identifier>.*)\s*$/ =~ node.statement
       if BLOCK_ACTIONS.include?(action)

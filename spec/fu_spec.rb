@@ -93,4 +93,12 @@ describe Fu::Mustache do
     Fu.to_mustache('%p(data-quoted="\\"")').should eq '<p data-quoted="\""></p>'
   end
 
+  it "handle empty lines with spaces okay" do
+    Fu.to_mustache <<-END
+    %p 
+
+    %p
+    END
+  end
+
 end

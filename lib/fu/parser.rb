@@ -82,7 +82,7 @@ module Fu
           node.text = scan.strip
         end
       end
-
+      node.type ||= :blank
       scanner.scan(/\n/) # Consume end of line
       node
     end
