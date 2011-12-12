@@ -30,7 +30,7 @@ module Fu
       if element_statement = scanner.scan(/\%[a-zA-Z0-9\-_]+/) # e.g. '%video'
         node.type = :element
         node.tag = element_statement[1..-1]
-      elsif mustache_statement = scanner.scan(/\{\{[^\S\n]*[#\^][^\S\n]*[a-zA-Z0-9_]+[^\S\n]*\}\}/) # e.g. = - #comments 
+      elsif mustache_statement = scanner.scan(/\{\{[^\S\n]*[#\^][^\S\n]*[a-zA-Z0-9_]+[^\S\n]*\}\}/) # e.g. = {{#comments}}
         node.type = :mustache
         node.statement = mustache_statement.scan(/[#\^]\s*[a-zA-Z0-9_]+/).flatten.first
       end
@@ -42,7 +42,6 @@ module Fu
         end
         node.type = :element
         node.tag ||= 'div'
-        node.attributes ||= {}
         case scan[0]
         when '.' then (node.css_classes ||= []) << scan[1..-1]
         when '#' then node.dom_id = scan[1..-1]    
@@ -50,27 +49,25 @@ module Fu
       end
 
       # Attributes-section, e.g. (hidden=true, data-bananas="one, two, five")
-      if node.type == :element && scan = scanner.scan(/[^\S\n]*\(/)
+      if node.type == :element && scan = scanner.scan(/[^\S\n]*\(/) # Match opening '('
         node.attributes ||= {}
         begin
-          scanner.scan(/\s*/) # whitespace and commas
+          scanner.scan(/\s*/) # Ditch whitespace 
           key = scanner.scan(/[a-zA-Z0-9\-_]+/)
           value = nil
-          raise SyntaxError.new("Expected '='", scanner.pos) unless scanner.scan(/\s*\=\s*/)
-          quote = scanner.scan(/['"]/)
-          if quote
-            scan = scanner.scan(/[^\n]*?(?<!\\)#{'\\'+quote}/) # Consume anything until a matching, unescaped quote
-            value = scan.chomp(quote)
+          raise SyntaxError.new("Expected '='", scanner.pos) unless scanner.scan(/\s*\=\s*/)          
+          if quote = scanner.scan(/['"]/)
+            value = scanner.scan(/[^\n]*?(?<!\\)#{'\\'+quote}/).chomp(quote) # Consume anything until a matching, unescaped quote
           else
             value = scanner.scan(/[a-zA-Z0-9\-_]+/) # Simple values need not be quoted
           end
           node.attributes[key] = value
           raise SyntaxError.new("Expected attribute value", scanner.pos) unless value
-          scanner.scan(/\s*,/) # discard any comma
-        end until scanner.scan(/\s*\)/)
+          scanner.scan(/\s*,/) # Discard whitespace and optional commas
+        end until scanner.scan(/\s*\)/) # Match ending ')'
       end
 
-      # Any text?
+      # Any plaintext?
       scan = scanner.scan(/[^\n]+/)
       unless scan.nil? || scan.strip.empty?
         if node.type # Is this a trailing child like e.g.: %h1.title This is a trailing child
@@ -83,6 +80,7 @@ module Fu
           node.text = scan.strip
         end
       end
+      
       scanner.scan(/\n/) # Consume end of line
       node
     end
