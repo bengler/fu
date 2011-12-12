@@ -29,6 +29,9 @@ A contrived example using all aspects of the syntax:
       {{#friends}}
         %li
           {{>friend_partial}}
+      {{^friends}}
+        %p.error
+          You, unfortunately, have no friends.
     
 Usage
 =====
