@@ -19,9 +19,13 @@ Usage
 
     Fu.to_mustache("%p Hello {{mustache}}")
 
+With sinatra:
 
-Todo
-====
+    require 'fu/tilt'
 
-* Tilt adapter
-* Support for unescaped html {{{...}}}, {{&...}}
+In your app:
+
+    get "/someaction" do
+      fu :template, :locals => {...}
+    end
+
