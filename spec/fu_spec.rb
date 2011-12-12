@@ -70,7 +70,7 @@ describe Fu::Mustache do
 
   it "handles mustache iterators" do
     result = Fu.to_mustache <<-END
-      - #children
+      {{#children}}
         {{name}} and {{address}}
     END
     result.should eq "{{#children}}{{name}} and {{address}}{{/children}}"
