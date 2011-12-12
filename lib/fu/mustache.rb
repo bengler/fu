@@ -19,7 +19,7 @@ module Fu
     # Flatten the tag_tree inserting spaces only where they have to be.
     def flatten(tag_tree)
       tag_tree.flatten.inject("") do |result, element| 
-        if result.empty? || element.empty? || result[-1] =~ NO_SPACE_CHARS || element[0] =~ NO_SPACE_CHARS
+        if result[-1] =~ NO_SPACE_CHARS || element[0] =~ NO_SPACE_CHARS
           "#{result}#{element}"
         else
           "#{result} #{element}"
