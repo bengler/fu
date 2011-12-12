@@ -45,7 +45,7 @@ describe Fu::Mustache do
             This is added too
         But this is outside        
     END
-    result.should eq "<section><p>This is some text for this paragraph. This is added too</p> But this is outside</section>"
+    result.should eq "<section><p>This is some text for this paragraph. This is added too</p>But this is outside</section>"
   end
 
   it "handles complex hierarchies with attributes and cdata and multiple siblings at the root level" do
@@ -65,7 +65,7 @@ describe Fu::Mustache do
       %section.number2
         Other stuff 
     END
-    result.should eq '<section><h1 class="header">This is a header</h1> <p data-bananas="healthy but radioactive">This is body <details><ul class="big_list"><li>Item 1</li> <li>Item 2</li> <li>Item 3</li></ul></details> <details class="secondary"><p>Some details</p></details></p></section> <section class="number2">Other stuff</section>'
+    result.should eq '<section><h1 class="header">This is a header</h1><p data-bananas="healthy but radioactive">This is body<details><ul class="big_list"><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul></details><details class="secondary"><p>Some details</p></details></p></section><section class="number2">Other stuff</section>'
   end
 
   it "handles mustache sections" do
