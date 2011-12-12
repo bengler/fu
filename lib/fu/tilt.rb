@@ -1,7 +1,7 @@
 # Makes Fu available through Tilt, also contains a utility
 # function that will be added to Sinatra if Sinatra is 
 # defined.
-
+require 'fu'
 require 'tilt'
 require 'mustache'
 
