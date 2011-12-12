@@ -1,9 +1,10 @@
 require 'cgi'
 
 module Fu
-  class Mustache
+  class Mustache    
     attr_reader :mustache
     SELF_CLOSING = %w(meta img link br hr input area param col base)
+    BLOCK_ACTIONS = %w(# ^)
 
     def initialize(root)
       @mustache = render_children(root)
@@ -20,9 +21,9 @@ module Fu
     end
 
     def render_mustache(node)
-      if node.statement[0] == '#'
-        identifier = node.statement[1..-1]
-        "{{##{identifier}}}#{render_children(node)}{{/#{identifier}}}"
+      /^\s*(?<action>[#>^]?)\s*(?<identifier>.*)\s*$/ =~ node.statement
+      if BLOCK_ACTIONS.include?(action)
+        "{{#{action}#{identifier}}}#{render_children(node)}{{/#{identifier}}}"
       else
         "{{#{node.statement}}}#{render_children(node)}"
       end

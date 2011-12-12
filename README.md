@@ -10,9 +10,16 @@ Fu combines the logic–less portability of Mustache with the terse utility of H
         text.
     .friend_list
       {{#friends}}
-        {{>friend_partial}}
+        {{>friend_partial}}        
     
 Usage
 =====
 
     Fu.to_mustache("%p Hello {{mustache}}")
+
+
+Todo
+====
+
+* Tilt adapter
+* Support for unescaped html {{{...}}}, {{&...}}

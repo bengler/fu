@@ -68,13 +68,22 @@ describe Fu::Mustache do
     result.should eq '<section><h1 class="header">This is a header</h1> <p data-bananas="healthy but radioactive">This is body <details><ul class="big_list"><li>Item 1</li> <li>Item 2</li> <li>Item 3</li></ul></details> <details class="secondary"><p>Some details</p></details></p></section> <section class="number2">Other stuff</section>'
   end
 
-  it "handles mustache iterators" do
+  it "handles mustache sections" do
     result = Fu.to_mustache <<-END
       {{#children}}
         {{name}} and {{address}}
     END
     result.should eq "{{#children}}{{name}} and {{address}}{{/children}}"
   end
+
+  it "handles mustache inverted sections" do
+    result = Fu.to_mustache <<-END
+      {{^children}}
+        {{name}} and {{address}}
+    END
+    result.should eq "{{^children}}{{name}} and {{address}}{{/children}}"
+  end
+
 
   it "handles mustache in attributes" do
     Fu.to_mustache('%p(data-bingo="{{bingo}}")').should eq '<p data-bingo="{{bingo}}"></p>'

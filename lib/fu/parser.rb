@@ -30,9 +30,9 @@ module Fu
       if element_statement = scanner.scan(/\%[a-zA-Z0-9\-_]+/) # e.g. '%video'
         node.type = :element
         node.tag = element_statement[1..-1]
-      elsif mustache_statement = scanner.scan(/\{\{[^\S\n]*[#>][a-zA-Z0-9_]+[^\S\n]*\}\}/) # e.g. = - #comments 
+      elsif mustache_statement = scanner.scan(/\{\{[^\S\n]*[#\^][^\S\n]*[a-zA-Z0-9_]+[^\S\n]*\}\}/) # e.g. = - #comments 
         node.type = :mustache
-        node.statement = mustache_statement.scan(/[#>][a-zA-Z0-9_]+/).flatten.first
+        node.statement = mustache_statement.scan(/[#\^]\s*[a-zA-Z0-9_]+/).flatten.first
       end
 
       # Classes and id's may be added, e.g. #my_special_header_id.alert.featured
