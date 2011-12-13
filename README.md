@@ -51,3 +51,9 @@ Then, in your app:
     get "/some_action" do
       fu :some_template, :locals => {...}
     end
+
+Todo
+====
+
+* Support `/`-comments
+ 
