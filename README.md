@@ -36,21 +36,9 @@ A contrived example using all aspects of the syntax:
 Usage
 =====
 
-Direct:
-
     Fu.to_mustache("%p Hello {{mustache}}")
 
-With Sinatra and Tilt:
-
-    require 'fu/tilt'
-
-Stick your fu-templates in your views-folder with the extension `.fu`.    
-
-Then, in your app:
-
-    get "/some_action" do
-      fu :some_template, :locals => {...}
-    end
+Sinatra w/Tilt? See https://github.com/benglerpebbles/fu-tilt#readme
 
 Todo
 ====
