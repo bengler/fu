@@ -7,24 +7,30 @@ module Fu
     attr_reader :mustache
     SELF_CLOSING_TAGS = %w(meta img link br hr input area param col base)
     BLOCK_ACTIONS = %w(# ^)   # <- Mustache actions that take a block
-    NO_SPACE_CHARS = /[{}<>]/ # <- Characters that do not need to be separated by a space
+    NO_SPACE_CHARS = /[{}<>\s]|^$/ # <- Characters that do not need to be separated by a space
                               #    when joining elements (e.g. "<p>!</p>", not "<p> ! </p>")
 
     def initialize(root)
-      @mustache = flatten(render_children(root))
+      @mustache = flatten(render_children(root).compact)
     end
 
     private
 
     # Flatten the tag_tree inserting spaces only where they have to be.
     def flatten(tag_tree)
-      tag_tree.flatten.inject("") do |result, element| 
-        if result[-1] =~ NO_SPACE_CHARS || element[0] =~ NO_SPACE_CHARS
+      tag_tree.flatten.inject("") do |result, element|
+        tail, incoming = result[-1], element[0]
+        if tail.nil? || (tail+incoming) =~ NO_SPACE_CHARS
           "#{result}#{element}"
         else
           "#{result} #{element}"
         end
       end
+    end
+
+    # Restore include tags that have been destroyed by escaping
+    def escape_html(text)
+      CGI.escapeHTML(text).gsub(/\{\{\s*\&gt\;/, "{{>")
     end
 
     # Returns a tag-tree of nested arrays reflecting the structure of the
@@ -34,7 +40,7 @@ module Fu
     end
 
     def render_text(node)
-      [CGI.escapeHTML(node.text), render_children(node)].compact
+      [escape_html(node.text), render_children(node)].compact
     end
 
     def render_blank(node); end

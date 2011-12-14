@@ -84,7 +84,6 @@ describe Fu::Mustache do
     result.should eq "{{^children}}{{name}} and {{address}}{{/children}}"
   end
 
-
   it "handles mustache in attributes" do
     Fu.to_mustache('%p(data-bingo="{{bingo}}")').should eq '<p data-bingo="{{bingo}}"></p>'
   end
@@ -101,4 +100,7 @@ describe Fu::Mustache do
     END
   end
 
+  it "never escapes the gt-character of include-statements" do
+    Fu.to_mustache("Bingo{{>partial}}bongo").should eq "Bingo{{>partial}}bongo"
+  end
 end
