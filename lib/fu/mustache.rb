@@ -18,7 +18,7 @@ module Fu
 
     # Flatten the tag_tree inserting spaces only where they have to be.
     def flatten(tag_tree)
-      tag_tree.flatten.inject("") do |result, element|
+      tag_tree.flatten.compact.inject("") do |result, element|
         tail, incoming = result[-1], element[0]
         if tail.nil? || (tail+incoming) =~ NO_SPACE_CHARS
           "#{result}#{element}"

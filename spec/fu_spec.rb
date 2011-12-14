@@ -103,4 +103,5 @@ describe Fu::Mustache do
   it "never escapes the gt-character of include-statements" do
     Fu.to_mustache("Bingo{{>partial}}bongo").should eq "Bingo{{>partial}}bongo"
   end
+
 end
