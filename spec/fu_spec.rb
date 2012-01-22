@@ -100,6 +100,52 @@ describe Fu::Mustache do
     END
   end
 
+  it "handles mustache sections" do
+    result = Fu.to_mustache <<-END
+      {{#children}}
+        {{name}} and {{address}}
+    END
+    result.should eq "{{#children}}{{name}} and {{address}}{{/children}}"
+  end
+
+  it "treats blank line after tag as a single space" do
+    result = Fu.to_mustache <<-END
+      %p
+        {{#children}} {{firstname}}
+          {{lastname}}
+          and {{address}}
+    END
+    result.should eq "<p>{{#children}}{{firstname}} {{lastname}} and {{address}}{{/children}}</p>"
+  end
+
+  it "it ignores blank lines" do
+    result = Fu.to_mustache <<-END
+        %p
+
+          Hello
+
+          {{#children}}
+            {{firstname}}
+
+            {{lastname}}
+
+            and {{address}}
+    END
+    result.should eq '<p>Hello {{#children}}{{firstname}} {{lastname}} and {{address}}{{/children}}</p>'
+  end
+
+  it "inserts whitespace where newline separates mustache sections" do
+    result = Fu.to_mustache <<-END
+      %p {{this}}
+        {{is}}
+      Another
+      {{#funky}}
+        {{mega}}
+        {{test}}
+    END
+    result.should eq "<p>{{this}} {{is}}</p>Another {{#funky}}{{mega}} {{test}}{{/funky}}"
+  end
+
   it "never escapes the gt-character of include-statements" do
     Fu.to_mustache("Bingo{{>partial}}bongo").should eq "Bingo{{>partial}}bongo"
   end
