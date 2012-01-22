@@ -16,6 +16,9 @@ module Fu
     private
 
     def parse_children(parent, scanner, parent_indent = -1)
+      if scanner.check(/\S/).nil?
+        scanner.scan(/(\s*\n)*/) #consume blank lines
+      end
       indent = (scanner.check(/\ +/) || '').size
       while indent > parent_indent && !scanner.eos? do
         node = parse_line(parent, scanner)
