@@ -36,7 +36,14 @@ module Fu
     # Returns a tag-tree of nested arrays reflecting the structure of the
     # document. E.g. ["<p>",["<em>", "Italicized text", "</em>"],"</p>"]
     def render_children(node)
-      node.children.map { |child| self.send("render_#{child.type}", child) }
+      node.children.each_with_index.inject([]) do |rendered, (child, i)|
+        rendered << self.send("render_#{child.type}", child)
+        next_sibling = node.children[i+1]
+        if child.type == :text  && !next_sibling.nil? && [:mustache, :text].include?(next_sibling.type)
+          rendered << " "
+        end
+        rendered
+      end
     end
 
     def render_text(node)
