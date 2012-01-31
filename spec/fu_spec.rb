@@ -146,6 +146,15 @@ describe Fu::Mustache do
     result.should eq "<p>{{this}} {{is}}</p>Another {{#funky}}{{mega}} {{test}}{{/funky}}"
   end
 
+  it "Preserves trailing whitespace" do
+    result = Fu.to_mustache <<-END
+      %span
+        {{variable}} 
+      hello
+    END
+    result.should eq "<span>{{variable}} </span>hello"
+  end
+
   it "never escapes the gt-character of include-statements" do
     Fu.to_mustache("Bingo{{>partial}}bongo").should eq "Bingo{{>partial}}bongo"
   end
