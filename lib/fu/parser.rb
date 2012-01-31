@@ -78,11 +78,11 @@ module Fu
         if node.type # Is this a trailing child like e.g.: %h1.title This is a trailing child
           node.children << OpenStruct.new(
             :parent => node, :children => [], 
-            :type => :text, :text => scan.strip
+            :type => :text, :text => scan.lstrip.squeeze(" ")
           )  
         else # This very node is teh text!
           node.type = :text
-          node.text = scan.strip
+          node.text = scan.lstrip.squeeze(" ")
         end
       end
       node.type ||= :blank
